@@ -16,11 +16,14 @@ const blogSchema = new Schema(
 	      avatar:{type: String}
 	    },
 	    content: {type: String},
+        comments: [{content: String, rating: Number, date: Date}]
 	          
     },
     {
         timestamps: true
     }
 )
+
+
 
 export default model("Blog", blogSchema) 
