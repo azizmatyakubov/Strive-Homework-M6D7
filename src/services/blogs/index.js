@@ -18,7 +18,7 @@ blogRouter.post('/', async(req, res, next) => {
 
 blogRouter.get('/', async(req, res, next) => {
     try {
-        const blogs = await blogModel.find()
+        const blogs = await blogModel.find().populate({path: 'author', select: 'firstName lastName _id'})
         if(blogs){
             res.status(200).send(blogs)
         }
@@ -29,7 +29,7 @@ blogRouter.get('/', async(req, res, next) => {
 
 blogRouter.get('/:blogId', async(req, res, next) => {
     try {
-        const blog = await blogModel.findById(req.params.blogId)
+        const blog = await blogModel.findById(req.params.blogId).populate({path: 'author', select: 'firstName lastName _id'})
         if(blog) {
             res.status(200).send(blog)
         }else {
@@ -75,7 +75,7 @@ blogRouter.post('/:blogId/comments/', async(req, res, next) => {
     try {
         const comment = {...req.body, date: Date()}
         console.log(comment) 
-        const updateBlog = await blogModel.findByIdAndUpdate(req.params.blogId, {$push: {comments: comment}}, {new: true, runValidators: true})
+        const updateBlog = await blogModel.findByIdAndUpdate(req.params.blogId, {$push: {comments: comment}}, {new: true, runValidators: true}).populate({path: 'author', select: 'firstName lastName'})
         if(updateBlog) {
             res.status(201).send(updateBlog)
         } else {

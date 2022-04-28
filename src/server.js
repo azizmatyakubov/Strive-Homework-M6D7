@@ -3,6 +3,8 @@ import listendpoints from 'express-list-endpoints'
 import cors from 'cors'
 import mongoose from 'mongoose'
 import blogRouter from "./services/blogs/index.js";
+import authorsRouter from "./services/authors/index.js";
+
 
 const server = express()
 const port = process.env.PORT || 3002
@@ -13,6 +15,8 @@ server.use(express.json())
 
 // -------------------------------End points-------------------------
 server.use('/blogPosts', blogRouter)
+server.use('/authors', authorsRouter)
+
 
 // -------------------------------Error handlers ---------------------
 
