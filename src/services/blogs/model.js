@@ -17,7 +17,7 @@ const blogSchema = new Schema(
 	    },
 	    content: {type: String},
         comments: [{content: String, rating: Number, date: Date}],
-		author: [{type: Schema.Types.ObjectId, ref: 'Author'}]
+		author: {type: Schema.Types.ObjectId, ref: 'Author'}	
 	          
     },
     {

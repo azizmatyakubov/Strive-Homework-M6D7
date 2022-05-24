@@ -4,6 +4,8 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import blogRouter from "./services/blogs/index.js";
 import authorsRouter from "./services/authors/index.js";
+import userRouter from "./services/users/index.js";
+import { catchAllHandler, forbiddenHandler, unauthorizedHandler } from "./errorHandlers.js";
 
 
 const server = express()
@@ -16,9 +18,14 @@ server.use(express.json())
 // -------------------------------End points-------------------------
 server.use('/blogPosts', blogRouter)
 server.use('/authors', authorsRouter)
+server.use('/users', userRouter)
 
 
 // -------------------------------Error handlers ---------------------
+
+server.use(unauthorizedHandler)
+server.use(forbiddenHandler)
+server.use(catchAllHandler)
 
 
 
