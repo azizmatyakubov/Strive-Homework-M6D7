@@ -1,6 +1,7 @@
 import express from "express";
 import blogModel from './model.js'
 import createError from 'http-errors'
+import { JWTAuthMiddleware } from "../../auth/token.js";
 
 const blogRouter = express.Router()
 
@@ -16,7 +17,7 @@ blogRouter.post('/', async(req, res, next) => {
     }
 })
 
-blogRouter.get('/', async(req, res, next) => {
+blogRouter.get('/', JWTAuthMiddleware,  async(req, res, next) => {
     try {
         const blogs = await blogModel.find().populate({path: 'author', select: 'firstName lastName _id'})
         if(blogs){
@@ -27,7 +28,7 @@ blogRouter.get('/', async(req, res, next) => {
     }
 })
 
-blogRouter.get('/:blogId', async(req, res, next) => {
+blogRouter.get('/:blogId', JWTAuthMiddleware, async(req, res, next) => {
     try {
         const blog = await blogModel.findById(req.params.blogId).populate({path: 'author', select: 'firstName lastName _id'})
         if(blog) {
